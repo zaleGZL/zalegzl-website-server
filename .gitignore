@@ -5,6 +5,7 @@
 
 # mongodb
 /db
+/config
 
 # misc
 .DS_Store
