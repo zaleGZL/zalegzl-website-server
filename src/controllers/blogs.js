@@ -135,10 +135,6 @@ const getBlog = async (ctx, next) => {
     if (specificFields.length === 0) {
       specificFields = blogFields.join(' ')
     } else {
-      // _id 要特殊处理，因为默认会返回
-      if (specificFields.indexOf('_id') === -1) {
-        specificFields.push('-_id')
-      }
       specificFields = specificFields.join(' ')
     }
   }
@@ -148,6 +144,10 @@ const getBlog = async (ctx, next) => {
   if (blog === null) {
     throw new APIError('getBlog:not_exist_blog')
   }
+
+  // 文章被查看次数+1
+  blog.viewTimes = blog.viewTimes + 1
+  await blog.save()
 
   ctx.rest(blog)
 }
